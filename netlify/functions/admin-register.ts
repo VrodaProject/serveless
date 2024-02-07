@@ -7,20 +7,15 @@ import { hashPassword } from "../common/password";
 import { signToken } from "../common/jwt";
 import { config } from "../core/config";
 import { api } from "../common/api";
+import { verifyHasura } from "../common/verifyHasura";
 
 export const handler: Handler = async (event, context) => {
   const { body, headers } = event;
 
-  if (
-    !headers["x-vroda-secret-key"] ||
-    headers["x-vroda-secret-key"] !== "myvrodasicretkey" //Якщо що я змінив myvrodasicretkey на myvrodasicretkeys мб це буде якось заважати потім
-  ) {
-    return {
-      statusCode: 403,
-      body: JSON.stringify({
-        massage: "'x-vroda-secret-key' is missing or value is invalid",
-      }),
-    };
+  try {
+    verifyHasura(headers);
+  } catch (error) {
+    return JSON.parse(error.message);
   }
 
   const input: AdminRegisterInput = JSON.parse(body!).input.admin;
