@@ -1,0 +1,23 @@
+query GetProductsItemsGroupedByCategoryId(
+  $firstCategory: uuid!
+  $secondCategory: uuid!
+) {
+  firstGroup: products(
+    where: { products_category_id: { _eq: $firstCategory } }
+  ) {
+    id
+  }
+  secondGroup: products(
+    where: { products_category_id: { _eq: $secondCategory } }
+  ) {
+    id
+  }
+}
+
+query GetProductsItemsById($ids: [uuid!]!) {
+  products(where: { id: { _in: $ids } }) {
+    id
+    title
+    price
+  }
+}

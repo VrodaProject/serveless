@@ -1,0 +1,12 @@
+overwrite: true
+schema:
+  - http://localhost:8081/v1/graphql:
+      headers:
+        x-hasura-admin-secret: mydminsecretkeyvroda
+documents: graphql/*.gql
+generates:
+  netlify/common/sdk.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request
