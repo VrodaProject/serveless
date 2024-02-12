@@ -31,8 +31,6 @@ const handler: Handler = async (event, context) => {
     .services(config.twilioServiceSid)
     .verifications.create({ to: phoneNumber, channel: "sms" });
 
-  console.log(phoneNumber);
-
   await api.RegisterNewCustomer(
     {
       phone: phoneNumber,

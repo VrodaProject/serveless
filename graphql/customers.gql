@@ -25,3 +25,51 @@ mutation CreateNewCustomer($phone: String!, $address: String!, $name: String!) {
     id
   }
 }
+
+mutation CreateNewCustomer($phone: String!, $address: String!, $name: String!) {
+  insert_customers_one(
+    object: { phone: $phone, address: $address, name: $name }
+    on_conflict: { constraint: customers_phone_key }
+  ) {
+    id
+  }
+}
+
+mutation InsertCustomer(
+  $name: String!
+  $password: String!
+  $phone: String!
+  $address: String!
+) {
+  insert_customers_one(
+    object: {
+      name: $name
+      password: $password
+      phone: $phone
+      address: $address
+    }
+  ) {
+    id
+  }
+}
+
+query GetCustomerByPhoneNumber($phone: String!) {
+  customers(where: { phone: { _eq: $phone } }) {
+    password
+    id
+    name
+  }
+}
+
+query GetCustomerById($id: uuid!) {
+  customers_by_pk(id: $id) {
+    id
+    name
+  }
+}
+
+query GetCustomers {
+  customers {
+    id
+  }
+}
