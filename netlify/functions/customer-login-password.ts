@@ -33,7 +33,7 @@ export const handler: Handler = async (event, context) => {
     return invalidUserOrPassword;
   }
 
-  const accessToken = signToken(data.customers[0].id);
+  const accessToken = signToken(data.customers[0].id, "user");
 
   return {
     body: JSON.stringify({ accessToken: accessToken }),
