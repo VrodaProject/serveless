@@ -14,17 +14,6 @@ export const handler: Handler = async (event, context) => {
 
   const password = hashPassword(input.password);
 
-  const data = await api.InsertCustomer(
-    {
-      name: input.name,
-      address: input.address,
-      phone: input.phone,
-      password,
-    },
-    {
-      "x-vroda-secret-key": config.hasuraAdminSecre,
-    }
-  );
   let phoneNumber;
 
   try {
@@ -32,6 +21,17 @@ export const handler: Handler = async (event, context) => {
   } catch (error) {
     return JSON.parse(error.massage);
   }
+  const data = await api.InsertCustomer(
+    {
+      name: input.name,
+      address: input.address,
+      phone: phoneNumber,
+      password,
+    },
+    {
+      "x-vroda-secret-key": config.hasuraAdminSecre,
+    }
+  );
 
   const customer = await api.GetCustomerByPhone(
     { phoneNumber },

@@ -5,6 +5,7 @@ import { signToken } from "../common/jwt";
 import { api } from "../common/api";
 import { config } from "../core/config";
 import { hashPassword } from "../common/password";
+import { validatePhoneNumber } from "../common/phoneNumber";
 
 const invalidUserOrPassword = {
   statusCode: 404,
@@ -15,9 +16,16 @@ export const handler: Handler = async (event, context) => {
   const { body } = event;
 
   const input: CustomerRegisterInput = JSON.parse(body!).input.customer;
+  let phoneNumber;
+
+  try {
+    phoneNumber = validatePhoneNumber(input.phone);
+  } catch (error) {
+    return JSON.parse(error.massage);
+  }
 
   const data = await api.GetCustomerByPhoneNumber(
-    { phone: input.phone },
+    { phone: phoneNumber },
     {
       "x-vroda-secret-key": config.hasuraAdminSecre,
     }
