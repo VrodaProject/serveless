@@ -13,6 +13,7 @@ const invalidUserOrPassword = {
 
 export const handler: Handler = async (event, context) => {
   const { body } = event;
+
   const input: AdminLoginInput = JSON.parse(body!).input.admin;
 
   const data = await api.GetAdminByUsername(

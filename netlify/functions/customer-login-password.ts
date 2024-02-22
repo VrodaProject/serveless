@@ -13,6 +13,7 @@ const invalidUserOrPassword = {
 
 export const handler: Handler = async (event, context) => {
   const { body } = event;
+
   const input: CustomerRegisterInput = JSON.parse(body!).input.customer;
 
   const data = await api.GetCustomerByPhoneNumber(
